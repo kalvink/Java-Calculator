@@ -1,30 +1,30 @@
 
 public class Functions {
 
-	private static int total;
+	private static double total;
 	
 	
 	
 
-	static int addition(int one, int two) {
+	static double addition(double one, double two) {
 		total = one + two;
 		return total;
 
 	}
 
-	static int subtract(int one, int two) {
+	static double subtract(double one, double two) {
 		total = one - two;
 		return total;
 
 	}
 
-	static int multiplication(int one, int two) {
+	static double multiplication(double one, double two) {
 		total = one * two;
 		return total;
 
 	}
 
-	static int division(int one, int two) {
+	static double division(double one, double two) {
 		total = one / two;
 		return total;
 

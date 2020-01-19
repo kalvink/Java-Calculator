@@ -10,16 +10,16 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
 
-//Basic Calculator by Kalvin Kao
+// Basic Calculator by Kalvin Kao
 
 public class Calculator extends Functions {
 	private static JTextField numberArea;
 	static String temp = "0";
 	static String temp2 = "0";
-	static boolean num1, num2, operator, equalbutton, resulted = false;
+	static boolean num1, num2, operator, equalbutton, resulted, decimal1, decimal2 = false;
 	static String op;
 	private static JTextField topNumberArea;
-	static int result = 0;
+	static double result = 0;
 
 	public static void main(String args[]) {
 
@@ -38,14 +38,14 @@ public class Calculator extends Functions {
 		topNumberArea.setBackground(Color.WHITE);
 		topNumberArea.setEditable(false);
 		panel_1.add(topNumberArea);
-		
-				numberArea = new JTextField();
-				numberArea.setBackground(Color.WHITE);
-				numberArea.setEditable(false);
-				numberArea.setFont(new Font("Tahoma", Font.PLAIN, 40));
-				numberArea.setColumns(1);
-				numberArea.setText(temp);
-				panel_1.add(numberArea);
+
+		numberArea = new JTextField();
+		numberArea.setBackground(Color.WHITE);
+		numberArea.setEditable(false);
+		numberArea.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		numberArea.setColumns(1);
+		numberArea.setText(temp);
+		panel_1.add(numberArea);
 		JPanel panel_3 = new JPanel();
 		frmCalculator.getContentPane().add(panel_3);
 		panel_3.setLayout(new GridLayout(0, 1, 0, 0));
@@ -53,7 +53,7 @@ public class Calculator extends Functions {
 		JPanel panel = new JPanel();
 		panel_3.add(panel);
 
-		//Clear all
+		// Clear all
 		JButton btnC = new JButton("C");
 		btnC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -66,6 +66,9 @@ public class Calculator extends Functions {
 				operator = false;
 				equalbutton = false;
 				resulted = false;
+				decimal1 = false;
+				decimal2 = false;
+
 			}
 		});
 		panel.setLayout(new GridLayout(0, 2, 0, 0));
@@ -77,7 +80,7 @@ public class Calculator extends Functions {
 		panel.add(blanklabel2);
 		panel.add(btnC);
 
-		//Back button
+		// Back button
 		JButton button_3 = new JButton("<=");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -90,9 +93,8 @@ public class Calculator extends Functions {
 					} else {
 						temp = temp.substring(0, temp.length() - 1);
 						numberArea.setText(temp);
-					}	
-				}
-				else {
+					}
+				} else {
 					if (temp2 == "0") {
 					} else if (temp2.length() == 1) {
 						temp2 = "0";
@@ -193,9 +195,8 @@ public class Calculator extends Functions {
 					topNumberArea.setText(temp + " " + op);
 					if (resulted == true) {
 						numberArea.setText(temp);
-					}
-					else {
-						numberArea.setText(temp2);					
+					} else {
+						numberArea.setText(temp2);
 					}
 					equalbutton = false;
 
@@ -285,9 +286,8 @@ public class Calculator extends Functions {
 					topNumberArea.setText(temp + " " + op);
 					if (resulted == true) {
 						numberArea.setText(temp);
-					}
-					else {
-						numberArea.setText(temp2);					
+					} else {
+						numberArea.setText(temp2);
 					}
 					equalbutton = false;
 
@@ -295,8 +295,7 @@ public class Calculator extends Functions {
 
 			}
 		});
-		
-		
+
 		panel_2.add(multiply);
 
 		// Number 1
@@ -379,9 +378,8 @@ public class Calculator extends Functions {
 					topNumberArea.setText(temp + " " + op);
 					if (resulted == true) {
 						numberArea.setText(temp);
-					}
-					else {
-						numberArea.setText(temp2);					
+					} else {
+						numberArea.setText(temp2);
 					}
 					equalbutton = false;
 
@@ -389,40 +387,96 @@ public class Calculator extends Functions {
 
 			}
 		});
-		
-		
-		panel_2.add(subtract);
-		
-		JPanel panel_4 = new JPanel();
-		panel_2.add(panel_4);
 
+		panel_2.add(subtract);
+
+		// DECIMAL SIGN
+		JButton decimal = new JButton(".");
+		decimal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (decimal1 == false && num1 == true && operator == false && num2 == false) {
+					decimal1 = true;
+					temp = temp + ".";
+					numberArea.setText(temp);
+					// if they only press . at start
+				} else if (decimal1 == false && num1 == false && operator == false && num2 == false) {
+					decimal1 = true;
+					num1 = true;
+					temp = temp + ".";
+					numberArea.setText(temp);
+				} else if (decimal2 == false && decimal1 == true && num1 == true && num2 == true && operator == true
+						&& equalbutton == false) {
+					decimal2 = true;
+					temp2 = temp2 + ".";
+					numberArea.setText(temp2);
+				} else if (decimal2 == false && num2 == false && operator == true && num1 == true
+						&& equalbutton == false) {
+					decimal2 = true;
+					num2 = true;
+					temp2 = temp2 + ".";
+					numberArea.setText(temp2);
+				} else if (decimal1 == false && num1 == true && operator == true && num2 == true
+						&& equalbutton == false) {
+					decimal2 = true;
+					num2 = true;
+					temp2 = temp2 + ".";
+					numberArea.setText(temp2);
+				}
+
+			}
+		});
+
+		panel_2.add(decimal);
+
+		// Number 0
 		JButton zero = new JButton("0");
+		zero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (num1 == false && operator == false) {
+					num1 = true;
+					temp = "0";
+					numberArea.setText("0");
+				} else if (num1 == true && operator == false) {
+					temp = temp + "0";
+					numberArea.setText(temp);
+				} else if (num2 == false && operator == true) {
+					temp2 = "0";
+					numberArea.setText(temp2);
+					num2 = true;
+				} else if (num2 == true && operator == true) {
+					temp2 = temp2 + "0";
+					numberArea.setText(temp2);
+				}
+			}
+		});
 		panel_2.add(zero);
 
 		// EQUAL SIGN
 		JButton equal = new JButton("=");
 		equal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (equalbutton == false) {
+				if (equalbutton == false && num1 == true && num2 == true && operator == true) {
 					equalbutton = true;
-					// num1 = false;
 					num2 = false;
 					topNumberArea.setText(temp + " " + op + " " + temp2 + " = ");
 
 					if (op == "+") {
-						result = Functions.addition(Integer.parseInt(temp), Integer.parseInt(temp2));
+						result = Functions.addition(Double.parseDouble(temp), Double.parseDouble(temp2));
 					} else if (op == "-") {
-						result = Functions.subtract(Integer.parseInt(temp), Integer.parseInt(temp2));
+						result = Functions.subtract(Double.parseDouble(temp), Double.parseDouble(temp2));
 					} else if (op == "x") {
-						result = Functions.multiplication(Integer.parseInt(temp), Integer.parseInt(temp2));
+						result = Functions.multiplication(Double.parseDouble(temp), Double.parseDouble(temp2));
 					} else if (op == "÷") {
-						result = Functions.division(Integer.parseInt(temp), Integer.parseInt(temp2));
+						result = Functions.division(Double.parseDouble(temp), Double.parseDouble(temp2));
 					}
-					numberArea.setText(Integer.toString(result));
-					temp = Integer.toString(result);
+					numberArea.setText(Double.toString(result));
+					temp = Double.toString(result);
 					operator = false;
 					op = " ";
 					resulted = true;
+					// decimal1 = false; ?? not sure if include
+					decimal2 = false;
+					temp2 = "0";
 				}
 
 			}
@@ -440,9 +494,8 @@ public class Calculator extends Functions {
 					topNumberArea.setText(temp + " " + op);
 					if (resulted == true) {
 						numberArea.setText(temp);
-					}
-					else {
-						numberArea.setText(temp2);					
+					} else {
+						numberArea.setText(temp2);
 					}
 					equalbutton = false;
 
