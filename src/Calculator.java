@@ -14,10 +14,9 @@ import java.awt.Component;
 
 public class Calculator extends Functions {
 	private static JTextField numberArea;
-	static int current = 0;
 	static String temp = "0";
 	static String temp2 = "0";
-	static boolean num1, num2, operator, equalbutton = false;
+	static boolean num1, num2, operator, equalbutton, resulted = false;
 	static String op;
 	private static JTextField topNumberArea;
 	static int result = 0;
@@ -39,14 +38,14 @@ public class Calculator extends Functions {
 		topNumberArea.setBackground(Color.WHITE);
 		topNumberArea.setEditable(false);
 		panel_1.add(topNumberArea);
-
-		numberArea = new JTextField();
-		numberArea.setBackground(Color.WHITE);
-		numberArea.setEditable(false);
-		numberArea.setFont(new Font("Tahoma", Font.PLAIN, 40));
-		numberArea.setColumns(1);
-		numberArea.setText(temp);
-		panel_1.add(numberArea);
+		
+				numberArea = new JTextField();
+				numberArea.setBackground(Color.WHITE);
+				numberArea.setEditable(false);
+				numberArea.setFont(new Font("Tahoma", Font.PLAIN, 40));
+				numberArea.setColumns(1);
+				numberArea.setText(temp);
+				panel_1.add(numberArea);
 		JPanel panel_3 = new JPanel();
 		frmCalculator.getContentPane().add(panel_3);
 		panel_3.setLayout(new GridLayout(0, 1, 0, 0));
@@ -54,6 +53,7 @@ public class Calculator extends Functions {
 		JPanel panel = new JPanel();
 		panel_3.add(panel);
 
+		//Clear all
 		JButton btnC = new JButton("C");
 		btnC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -65,29 +65,45 @@ public class Calculator extends Functions {
 				num2 = false;
 				operator = false;
 				equalbutton = false;
+				resulted = false;
 			}
 		});
 		panel.setLayout(new GridLayout(0, 2, 0, 0));
 
-		JLabel label = new JLabel("");
-		panel.add(label);
+		JLabel blanklabel = new JLabel("");
+		panel.add(blanklabel);
 
-		JLabel lblNewLabel = new JLabel("");
-		panel.add(lblNewLabel);
+		JLabel blanklabel2 = new JLabel("");
+		panel.add(blanklabel2);
 		panel.add(btnC);
 
-		JButton button_3 = new JButton("<--");
+		//Back button
+		JButton button_3 = new JButton("<=");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (temp == "0") {
-				} else if (temp.length() == 1) {
-					temp = "0";
-					numberArea.setText(temp);
-					num1 = false;
-				} else {
-					temp = temp.substring(0, temp.length() - 1);
-					numberArea.setText(temp);
+				if (num2 == false) {
+					if (temp == "0") {
+					} else if (temp.length() == 1) {
+						temp = "0";
+						numberArea.setText(temp);
+						num1 = false;
+					} else {
+						temp = temp.substring(0, temp.length() - 1);
+						numberArea.setText(temp);
+					}	
 				}
+				else {
+					if (temp2 == "0") {
+					} else if (temp2.length() == 1) {
+						temp2 = "0";
+						numberArea.setText(temp2);
+						num2 = false;
+					} else {
+						temp2 = temp2.substring(0, temp2.length() - 1);
+						numberArea.setText(temp2);
+					}
+				}
+
 			}
 		});
 		button_3.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -175,7 +191,13 @@ public class Calculator extends Functions {
 					num1 = true;
 					op = "÷";
 					topNumberArea.setText(temp + " " + op);
-					numberArea.setText(temp2);
+					if (resulted == true) {
+						numberArea.setText(temp);
+					}
+					else {
+						numberArea.setText(temp2);					
+					}
+					equalbutton = false;
 
 				}
 
@@ -261,12 +283,20 @@ public class Calculator extends Functions {
 					num1 = true;
 					op = "x";
 					topNumberArea.setText(temp + " " + op);
-					numberArea.setText(temp2);
+					if (resulted == true) {
+						numberArea.setText(temp);
+					}
+					else {
+						numberArea.setText(temp2);					
+					}
+					equalbutton = false;
 
 				}
 
 			}
 		});
+		
+		
 		panel_2.add(multiply);
 
 		// Number 1
@@ -347,16 +377,24 @@ public class Calculator extends Functions {
 					num1 = true;
 					op = "-";
 					topNumberArea.setText(temp + " " + op);
-					numberArea.setText(temp2);
+					if (resulted == true) {
+						numberArea.setText(temp);
+					}
+					else {
+						numberArea.setText(temp2);					
+					}
+					equalbutton = false;
 
 				}
 
 			}
 		});
+		
+		
 		panel_2.add(subtract);
-
-		JButton dot = new JButton(".");
-		panel_2.add(dot);
+		
+		JPanel panel_4 = new JPanel();
+		panel_2.add(panel_4);
 
 		JButton zero = new JButton("0");
 		panel_2.add(zero);
@@ -384,6 +422,7 @@ public class Calculator extends Functions {
 					temp = Integer.toString(result);
 					operator = false;
 					op = " ";
+					resulted = true;
 				}
 
 			}
@@ -399,8 +438,14 @@ public class Calculator extends Functions {
 					num1 = true;
 					op = "+";
 					topNumberArea.setText(temp + " " + op);
-					numberArea.setText(temp2);
+					if (resulted == true) {
+						numberArea.setText(temp);
+					}
+					else {
+						numberArea.setText(temp2);					
+					}
 					equalbutton = false;
+
 				}
 
 			}
