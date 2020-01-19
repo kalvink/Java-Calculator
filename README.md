@@ -18,3 +18,6 @@ Tools used
 GUI Libraries
 - Swing
 - awt
+
+![Basic Calculator by Kalvin Kao](https://i.imgur.com/iai9ysg.png)
+
